@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# provided a list of choices and a fasta file this prints out a new fast file that
+# provided a list of choices and a fasta file this prints out a new fasta file that
 # includes only the comps specified in the list
 
 $choices = $ARGV[0];

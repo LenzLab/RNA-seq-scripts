@@ -18,7 +18,7 @@ while(<>) {
 
 %longest = ();
 # instead of getting all of the seq1 entries, we're going to pick the LONGEST
-# entry from each comp, regardless of which sequence or c0, c1, c2 its from
+# entry from each comp, regardless of which sequence or c0, c1, c2 it's from
 # this loop iterates through all of the collected comp entries and extracts the length
 # from the metadata on the first line. When it has the length, it checks to see if the
 # new length is longer than any previous lenghts found for this kind of comp

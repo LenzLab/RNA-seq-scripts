@@ -5,7 +5,7 @@
 # comp1235 100
 # comp1234 20
 # comp1232 10
-# comp1232 1
+# comp1231 1
 
 # we're going to use this hash to store frequencies of comps eg..
 # comp1234 = 5 (means that we've seen this comp 5 times)

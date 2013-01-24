@@ -28,7 +28,8 @@ while(<>) {
 		$data{$current} = $_;
 	} else {
 		# If we didnt match the pattern, we're looking at a line of
-		# sequence, we simply need to add this to the end of the			# active hash entry
+		# sequence, we simply need to add this to the end of the
+		# active hash entry
 		$data{$current} .= $_;
 	}
 }
