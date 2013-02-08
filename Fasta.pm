@@ -1,6 +1,17 @@
 #!/usr/bin/perl
 
 # this is a module for easily filtering a fasta file, see fastatest.pl for an example
+
+#available elements in an entry
+#'header' => '>comp1142741_c0_seq1 len=1940 path=[...]'
+#'transcript' => 'TACTGTGG...'  (newlines excluded)
+#'sequence' => 'seq3'
+#'c' => 'c0'
+#'comp' => 'comp1142741'
+#'identifier' => 'comp1142741_c0_seq4'
+#'length' => 1110
+#'path' => '[1:0-468 470:469-720 . . . 11512:1085-1109]'
+#'raw' => '<full raw value of the fasta entry>'
 package Fasta;
 
 use strict;
@@ -34,6 +45,8 @@ sub load {
 			push @entries, \%entry;
 		} else {
 			$entries[-1]{raw} .= $_;
+			chomp($_);
+			$entries[-1]{transcript} .= $_;
 		}
 	}
 
@@ -96,13 +109,14 @@ sub parseEntry {
 	my $path = $1;
 
 	my %hash = (
+		header => $entry,
 		identifier => $identifier,
 		comp => $comp,
 		c => $c,
 		sequence => $sequence,
 		length => $len,
 		path => $path,
-		raw => $entry
+		raw => $entry,
 	);
 
 	return %hash;
