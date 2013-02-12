@@ -27,21 +27,61 @@ while(<$fh_pattern_list>) {
 close($fh_pattern_list);
 
 
+#output is organized in a fairly complex data structure before sorted and printed
+#general structure follows:
+#
+#%output = {
+#	$ident1 => {
+#		$pattern1 => {
+#			'count' => count of this pattern
+#			'positions' => array of positions where this pattern occurs
+#		}
+#
+#		$pattern2 => {
+#			...
+#		}
+#	}
+#
+#	$ident2 => {
+#		...
+#	}
+#}
+
+#this loop loads the data structure with information 
+#about the patterns found for each identifier
+my %output;
 while($fasta->hasNext()) {
 	my $entry = $fasta->next();
 	my $ident = $entry->{identifier};
 	my $transcript = $entry->{transcript};
 
-	print "$ident\n";
-	foreach my $pattern  (@patterns) {
-		my $count = 0;
-		print "$pattern\n";
-		print "found at: ";
+
+	foreach my $pattern (@patterns) {
+		$output{$ident}{$pattern}{count} = 0;
+		$output{$ident}{$pattern}{positions} = [];
 		while($transcript =~ /(?=$pattern)/g){
-			$count++;
 			my $position = pos($transcript)+1;
-			print "$position ";
+			$output{$ident}{$pattern}{count}++;
+			#@{} notation used in order to treat a hash element as an array
+			push(@{$output{$ident}{$pattern}{positions}}, $position);
 		}
-		print "\ncount: $count\n";
 	}
 }
+
+
+#the hash of outputs is sorted by the value of 'count' of the first pattern in the pattern list.
+#this foreach loops through the returned list of idents, printing the ones where the count
+#is nonzero in descending order of the count
+foreach my $ident (sort {$output{$b}{$patterns[0]}{count} <=> $output{$a}{$patterns[0]}{count}} keys %output){
+
+	if ($output{$ident}{$patterns[0]}{count} > 0){
+		print "$ident\n";
+		foreach my $pattern (@patterns) {
+			print "$pattern\n";
+			print "count: $output{$ident}{$pattern}{count}\n";
+			print "found at: @{$output{$ident}{$pattern}{positions}}\n\n";
+		}
+	}
+}
+
+
