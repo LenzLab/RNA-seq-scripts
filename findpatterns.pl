@@ -1,7 +1,7 @@
 #!usr/bin/perl
 
 
-#findpatterns4.pl - 2013-02-13 mc [mod]
+#findpatterns.pl - 2013-02-14 mc
 #Usage: perl findpatterns.pl filename.fasta patternlist.txt
 #
 #This script takes a fasta file and a text file with a list of
