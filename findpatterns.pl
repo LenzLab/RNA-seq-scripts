@@ -1,7 +1,7 @@
 #!usr/bin/perl
 
 
-#findpatterns.pl
+#findpatterns4.pl - 2013-02-13 mc [mod]
 #Usage: perl findpatterns.pl filename.fasta patternlist.txt
 #
 #This script takes a fasta file and a text file with a list of
@@ -11,9 +11,14 @@
 #is shown. This position is the number of the nucleotide of the first
 # character of the matched pattern. 
 
+#output of results is restricted to counts in the range: $lothreshold <= counts < $hithreshold
+#edit the lines below to set the range
+
 use Fasta;
 use strict;
 
+my $lothreshold = 1;
+my $hithreshold = 200;
 
 my $fasta = new Fasta($ARGV[0]) or die "need a fasta file";
 my $pattern_list = $ARGV[1] or die "need a list of patterns";
@@ -71,10 +76,10 @@ while($fasta->hasNext()) {
 
 #the hash of outputs is sorted by the value of 'count' of the first pattern in the pattern list.
 #this foreach loops through the returned list of idents, printing the ones where the count
-#is nonzero in descending order of the count
+#is within the threshold variables set at the top of the script
 foreach my $ident (sort {$output{$b}{$patterns[0]}{count} <=> $output{$a}{$patterns[0]}{count}} keys %output){
 
-	if ($output{$ident}{$patterns[0]}{count} > 0){
+	if ($output{$ident}{$patterns[0]}{count} >= $lothreshold and $output{$ident}{$patterns[0]}{count}< $hithreshold){
 		print "$ident\n";
 		foreach my $pattern (@patterns) {
 			print "$pattern\n";
