@@ -39,7 +39,7 @@ sub load {
 
 	my @entries = ();
 	while(<FH>) {
-		if ($_ =~ m/^>(comp.*?) /) {
+		if ($_ =~ m/^>(comp.*?)\s/) {
 			my %entry = $self->parseEntry($_);
 
 			push @entries, \%entry;
@@ -102,7 +102,7 @@ sub parseEntry {
 	my $c = $3;
 	my $sequence = $4;
 
-	$entry =~ /len=([^ ]+) /;
+	$entry =~ /len=([^ ]+)\s/;
 	my $len = $1;
 
 	$entry =~ /path=(.*)$/;
