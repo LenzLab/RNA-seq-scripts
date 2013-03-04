@@ -39,7 +39,7 @@ sub load {
 
 	my @entries = ();
 	while(<FH>) {
-		if ($_ =~ m/^>(comp.*?)\s/) {
+		if ($_ =~ m/^>(.*?)\s/) {
 			my %entry = $self->parseEntry($_);
 
 			push @entries, \%entry;
@@ -49,6 +49,7 @@ sub load {
 			$entries[-1]{transcript} .= $_;
 		}
 	}
+
 
 	$self->{_fasta} = \@entries;
 
@@ -96,11 +97,17 @@ sub parseEntry {
 	my $self = shift;
 	my $entry = shift;
 
-	$entry =~ />((comp\d+)_(c\d+)_(seq\d+))/;
+	#match first token on header line up to whitespace as identifier
+	$entry =~ /^>(.*?)\s.*$/;
 	my $identifier = $1;
+
+	#if header matches comp system, dissect for specific values
+	$entry =~ />((comp\d+)_(c\d+)_(seq\d+))/;
+	$identifier = $1;
 	my $comp = $2;
 	my $c = $3;
 	my $sequence = $4;
+		
 
 	$entry =~ /len=([^ ]+)\s/;
 	my $len = $1;
