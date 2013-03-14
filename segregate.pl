@@ -1,3 +1,5 @@
+
+#segregate.pl - 2013-3-13 mc
 #given the filenames of one or more sequence alignment files, this 
 #script will output a similar file, with sequences marked by the 
 #same identifier adjacent to each other, and sorted by the identifiers.

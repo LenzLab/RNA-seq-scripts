@@ -1,6 +1,4 @@
-#!usr/bin/perl
-
-use strict;
+#querytable.pl - 2013-3-13 mc
 
 #this script filters a file representing sequence presence/expression as a table
 #through conditions set by the user. only rows in the table that satisfy all 
@@ -23,10 +21,16 @@ use strict;
 #$3 != 0 	    (and)the value in column 3 is not 0
 #$2 == $3           (and)the value in col. 2 is equal to the value in col. 3
 
-#using this example is equivalent to entering the string 
+#using the above example is equivalent to entering the string 
 #'$1 > $2 and $1 > 20 and $3 != 0 and $2 == $3'
 #into $condition below, and leaving off the conditions file.
 
+
+#!usr/bin/perl
+use strict;
+
+
+# $condition variable here
 # a number preceded by $ indicates the column number. 
 #i.e. $3 indicates the value in column 3
 my $condition = '$1 > $2 and $1 > 20 and $3 != 0 and $2 == $3';

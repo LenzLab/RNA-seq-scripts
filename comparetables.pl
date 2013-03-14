@@ -1,5 +1,6 @@
-#!usr/bin/perl
+#comparetables.pl - 2013/3/13 mc
 
+#!usr/bin/perl
 use strict;
 
 my $left_table_fname = $ARGV[0];

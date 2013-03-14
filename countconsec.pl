@@ -1,6 +1,6 @@
-#!usr/bin/perl
+#countconsec.pl - 2013-3-13 mc
 
-#countconsec.pl
+
 #Usage: perl countconsec.pl filename.fasta [max_consec]
 #       max_consec default is 5
 #       i.e.:  perl countconsec.pl small.fasta
@@ -28,6 +28,8 @@
 #GGG 1
 
 
+
+#!usr/bin/perl
 
 use Fasta;
 use strict;

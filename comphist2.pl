@@ -1,3 +1,5 @@
+#comphist2.pl  auth: JH
+
 #!/usr/bin/perl
 
 # Given a fasta file, this finds the frequency of the comps and then outputs

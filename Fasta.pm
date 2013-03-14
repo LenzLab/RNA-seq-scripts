@@ -1,4 +1,5 @@
-#!/usr/bin/perl
+#Fasta.pm - 2013-3-13 mc
+#Auth: JH
 
 # this is a module for easily filtering a fasta file, see fastatest.pl for an example
 
@@ -12,6 +13,8 @@
 #'length' => 1110
 #'path' => '[1:0-468 470:469-720 . . . 11512:1085-1109]'
 #'raw' => '<full raw value of the fasta entry>'
+
+#!/usr/bin/perl
 package Fasta;
 
 use strict;

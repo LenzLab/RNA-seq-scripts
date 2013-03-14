@@ -1,5 +1,3 @@
-#!usr/bin/perl
-
 
 #findpatterns.pl - 2013-02-14 mc
 #Usage: perl findpatterns.pl filename.fasta patternlist.txt
@@ -13,6 +11,8 @@
 
 #output of results is restricted to counts in the range: $lothreshold <= counts < $hithreshold
 #edit the lines below to set the range
+
+#!usr/bin/perl
 
 use Fasta;
 use strict;

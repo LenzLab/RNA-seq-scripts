@@ -1,11 +1,13 @@
-#!/usr/bin/perl
+#filterduplicates.pl - 2013-3-13 mc
 
-use Fasta;
-use strict;
 #This is a script that takes 2 fasta files as arguments, and outputs
 #a new fasta file that only contains entries in the 2nd file that 
 #do not already exist in the first file.
 
+#!/usr/bin/perl
+
+use Fasta;
+use strict;
 
 #Create an iterator for both fasta files given as arguments
 my $oldFasta = new Fasta($ARGV[0]);

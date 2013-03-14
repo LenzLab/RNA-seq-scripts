@@ -1,14 +1,17 @@
-#!usr/bin/perl
-
-use strict;
+#sorttable.pl - 2013-3-13 mc
 #this script takes a table file with sequence identifiers on the leftmost
-#column and 6 other columns (separated by tabs [\t) for each sample.
+#column and 6 other columns (separated by tabs [\t]) for each sample.
 #it outputs a file of the same type sorted by the value of data column 
 #$column. (leftmost column of identifiers is column 0)
 
 #usage: set the $column variable below to the column you want to sort by, 
 # then run with:   
 #perl sorttable.pl tablefile.txt
+
+#!usr/bin/perl
+
+use strict;
+
 
 my $column = 3; # column number [1-6] that the entries will be sorted by
 

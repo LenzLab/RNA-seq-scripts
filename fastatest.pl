@@ -1,6 +1,9 @@
-#!/usr/bin/perl
+#Last edit: 13/3/2013 MC
+#Auth: JH
 
-use Fasta;
+
+
+#Hash keys for each fasta entry 
 
 #'sequence' => 'seq3'
 #'c' => 'c0'
@@ -9,6 +12,10 @@ use Fasta;
 #'length' => 1110
 #'path' => '[1:0-468 470:469-720 . . . 11512:1085-1109]'
 #'raw' => '<full raw value of the fasta entry>'
+
+#!/usr/bin/perl
+
+use Fasta;
 
 $fasta = new Fasta($ARGV[0]);
 while($fasta->hasNext()) {

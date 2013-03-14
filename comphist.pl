@@ -1,3 +1,5 @@
+#comphist.pl auth:JH
+
 #!/usr/bin/perl
 
 # outputs the frequency that each comp# appears.

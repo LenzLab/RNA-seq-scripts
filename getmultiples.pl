@@ -1,11 +1,13 @@
-#!/usr/bin/perl
 
+#getmultiples.pl - 2013-3-13 mc
 #usage: perl getmultiples.pl <comp list> <frequency list>
 #Given a file with a comp as the first thing on each line, 
 #and a list of comp frequencies such as that output by 
 #comphist.pl, outputs a file similar to the frequency list,
 #containing only comps that were in the comp list and 
 #have 2 or more occurences.
+
+#!/usr/bin/perl
 
 use strict;
 
