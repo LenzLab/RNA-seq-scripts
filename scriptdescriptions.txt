@@ -1,0 +1,235 @@
+General notes for all scripts: 
+
+	Files from different operating systems sometimes use different newline
+	characters. A script won't work if the files it's trying to use as 
+	input don't use newline characters it recognizes. You can view the file
+	in a unix shell with 'less filename' to see if lines are separated correctly. 
+
+	--base command for examples below:
+		perl countconsec.pl filename.fasta
+
+	To view output conveniently without saving to a file or taking up 
+	terminal space, add  '| less' to the end of a command.
+		example:  perl countconsec.pl filename.fasta | less
+
+	To save the output of a script to a new file, or overwrite
+	an existing file with the output, add ' > filename' to
+	the end of a command.
+		example: perl countconsec.pl filename.fasta > otherfile.txt 
+
+
+
+
+comparetables.pl: 2013-3-13, auth: MC, request: DH 
+		usage: perl comparetables.pl table1.txt table2.txt
+
+		Takes two tables as .txt files which have on each line 
+		a comp identifier followed by several numbers, separated by tabs.
+		There may also be a header at the top of the file with labels for 
+		the columns, which will be used for the header of the output.
+
+		The output is a new file with the two inputs side by side, with 
+		matching identifiers across from each other, grouped by comp numbers, 
+		and with blank lines across from identifiers which only exist in one file.
+
+
+sorttable.pl: 2013-3-13, auth: MC, request: VR
+		usage: perl sorttable.pl tablefile.txt
+		usage note: the column that you want to sort the table
+			    by must be set by the variable on this line
+		            in the script:
+				my $column = 3;
+
+		Takes a table as a .txt file, and sorts the lines in the file
+		by the values in the column given by the $column variable in the script.
+		Outputs a new table .txt file, sorted by this column.
+
+
+querytable.pl: 2013-3-13, auth: MC, request: VR
+		usage: perl querytable.pl tablefile.txt
+		or     perl querytable.pl tablefile.txt conditions.txt
+
+		tablefile.txt is a table as a .txt file where each row contains 
+		first a comp identifier, then a series of values separated by tabs.
+		conditions.txt is optional, and contains a list of logical statements
+		to filter the file by. If conditions.txt is not supplied, the script
+		will work off of a statement given in the script.
+
+		Outputs a similar table file, filtered only for lines which satisfy all 
+		conditions. 
+
+		More detailed instructions are given in comments at the top of the script.
+
+
+countconsec.pl: 2013-3-13, auth: MC, request: DH
+--Requires Fasta.pm
+		usage: perl countconsec.pl filename.fasta
+		       perl countconsec.pl filename.fasta 7
+
+		Takes a fasta file and optionally an integer as input. The integer 
+		will be the maximum number of consecutive pairs to stop at, if given.
+		If it is not given, the default of max_consec = 5 will be used.
+
+		For each entry in the fasta file, counts the number of occurences of "A", 
+		"AA", "AAA", and so on, up to the maximum described above, as well as 
+		the same patterns for C, G, and T. These patterns are exclusive, so "AAA"
+		will only count as a single "AAA", and will not be counted for "A" or "AA".
+
+		Sample output with max_consec = 3:
+
+			comp12345_c0_seq1
+			A 3
+			AA 2
+			AAA 0
+			C 10
+			CC 5
+			CCC 2
+			T 20
+			TT 2
+			TTT 3
+			G 9
+			GG 4
+			GGG 1
+
+
+filterduplicates.pl: 2013-3-13, auth: MC, request: VR
+--Requires Fasta.pm
+		usage: perl filterduplicates.pl file1.fasta file2.fasta
+
+		Takes 2 fasta files as input, presumably with some overlap between them.
+
+		This script will output a new fasta file which contains only entries
+		from file2.fasta that don't already exist in file1.fasta. Entries that
+		exist only in file1.fasta will not be included.
+
+
+findpatterns.pl: 2013-3-13, auth: MC, request: DH
+--Requires Fasta.pm
+		usage: perl findpatterns.pl filename.fasta patternlist.txt
+
+		Takes a fasta file and a text file. The text file should
+		contain on each line a pattern of base pairs to search for,
+		such as TAAAT.
+
+		For each entry in the fasta file, the number of occurences
+		of each pattern is counted, and the position in the sequence
+		of each occurence is recorded. Output is sorted by the frequency 
+		of the first pattern in patternlist.txt, and is filtered by the 
+		variables $lothreshold and $hithreshold near the top of the script.
+		That is, only entries for which the frequency of the first pattern
+		are within the threshold variables will be printed as output.
+
+
+getmultiples.pl: 2013-3-13, auth: MC
+		usage: perl getmultiples.pl complist.txt frequencylist.txt
+
+		complist.txt can be any file where the first thing on each 
+		line is a comp identifier. frequencylist.txt should be a 
+		file like those output by comphist.pl, where each line consists
+		of a comp identifier followed by an integer frequency value.
+
+		Output of this script is a list of the same structure as 
+		frequencylist.txt, only including comps that are in complist.txt
+		and have a frequency of at least 2 in frequencylist.txt
+
+
+segregate.pl: 2013-13-3, auth: MC, request: DH
+		usage: segregate.pl file1.txt file2.txt ...
+
+		Takes one or more sequence alignment files as input.
+
+		Re-groups all of the lines given so that identical identifiers
+		will be grouped consecutively, with blank lines separating different
+		identifiers. An identifier is recognized as a sequence of characters
+		from the very beginning of a line to the first whitespace on that line.
+
+		Some examples of input and output lines are given in the comments at the 
+		top of the script
+
+
+****************************************************************************************
+
+
+
+comphist.pl: auth: JH
+		usage: perl comphist.pl filename.fasta
+
+		counts and reports number of occurences of each comp
+		reports in descending order
+		example:
+			comp1235 100
+			comp1234 20
+			comp1232 10
+			comp1231 1
+
+
+		
+comphist2.pl: auth: JH
+		usage: perl comphist.pl filename.fasta
+	
+		counts comp frequency same as comphist, but bins comps with 
+		the same frequency and reports the number of comps in each 
+		numbered bin.
+		example:
+		<# occurences> <#comps with this frequency>
+			1 2
+			2 1
+			3 1
+		comps that occur more than 20 times are currently lumped
+		into one bin, which may not sort correctly in the list.
+
+Fasta.pm: auth: JH
+		  A module that allows fasta files to be treated as a list of entries.
+		  Some scripts need this in the same directory to run.
+
+fastatest.pl: auth: JH
+--Requires Fasta.pm
+		(same behavior as firstseq.pl, but uses Fasta.pm module)
+		usage: perl fastatest.pl filename.fasta
+		for new fasta file:
+		       perl fastatest.pl filename.fasta > newfilename.fasta
+	
+		Finds all entries from seq1 and prints them. If > newfilename.fasta
+		is included, prints them to a new file with the given name instead.
+	
+firstseq.pl: auth: JH
+		usage: perl firstseq.pl filename.fasta
+		for new fasta file:
+		       perl firstseq.pl filename.fasta > newfilename.fasta
+	
+		Finds all entries from seq1 and prints them. Prints them into a new
+		fasta file if directed to one.
+
+longestseq.pl: auth: JH
+		usage: perl firstseq.pl filename.fasta
+		for new fasta file: 
+		       perl firstseq.pl filename.fasta > newfilename.fasta
+	
+		Finds and prints the longest sequence from each comp in the given 
+		fasta file, ignoring c# and seq#. If directed to a new fasta file
+		with  > newfilename.fasta, prints there instead of to the terminal.
+
+onlycomp.pl: auth: JH
+		usage: perl onlycomp.pl filename.fasta
+	
+		given a fasta file, simply prints a list of all the "comp1234" values, 
+		no other information.
+
+subfasta.pl:  auth: JH
+		Given a text file containing a list of comp identifiers and a fasta file, 
+			outputs a new fasta file containing only entries that match the
+			given identifiers.
+		usage: perl subfasta.pl choices.txt bigfasta.fasta
+		to create new fasta file immediately:
+		       perl subfasta.pl choices.txt bigfasta.fasta > smallfasta.fasta
+	
+		choices.txt can be any text file with a fasta entry
+		identifier on each line, like so:
+	
+			comp199230_c0_seq1
+	
+			comp184052_c1_seq42
+	
+		All entries in the fasta file that match an identifier in the text file
+		will be printed to the terminal. If > smallfasta.fasta is inluded, 
+		the entries will be printed to a new fasta file with the given name instead.
