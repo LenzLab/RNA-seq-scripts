@@ -1,4 +1,5 @@
-#querytable.pl - 2013-3-13 mc
+#querytable.pl - 2013-4-15
+
 
 #this script filters a file representing sequence presence/expression as a table
 #through conditions set by the user. only rows in the table that satisfy all 
@@ -13,27 +14,31 @@
 #a text file containing a condition on each line. if a file is supplied, the string in 
 #the $condition variable will not be used. the condition file can also be seen as
 #a series of conditions joined by an "and" between lines
+
 #for both the file and the $condition variable, use $[digit] to express the value 
 #in a specific column. for example $5 refers to the value in column 5
+
 #a conditions file might look like this (translations on the right not part of file): 
 #$1 > $2                 the value in col. 1 is greater than that of col. 2 
 #$1 > 20            (and)the value in col. 1 is greater than 20
 #$3 != 0 	    (and)the value in column 3 is not 0
 #$2 == $3           (and)the value in col. 2 is equal to the value in col. 3
 
-#using the above example is equivalent to entering the string 
+#using this example is equivalent to entering the string 
 #'$1 > $2 and $1 > 20 and $3 != 0 and $2 == $3'
 #into $condition below, and leaving off the conditions file.
 
 
 #!usr/bin/perl
+
 use strict;
+
 
 
 # $condition variable here
 # a number preceded by $ indicates the column number. 
 #i.e. $3 indicates the value in column 3
-my $condition = '$1 > $2 and $1 > 20 and $3 != 0 and $2 == $3';
+my $condition = '$1 == 0 and $2 == 0 and $3 == 0 and $4 == 0 and $5 == 0 and $6 == 0 and $7 == 0 and $8 == 0 and $9 == 0';# and $10 == 0 and $11 == 0 and $12 == 0';
 
 
 #
@@ -43,7 +48,10 @@ my @conditions;
 if(@ARGV > 1) {
 	my $fname_conditions = $ARGV[1];
 	open(my $fh_conditions, $fname_conditions) or die $!;
-	@conditions = <$fh_conditions>;
+	while(<$fh_conditions>){
+		chomp;
+		push(@conditions, $_);
+	}
 	close($fh_conditions);
 }
 else{
@@ -52,13 +60,13 @@ else{
 
 #this loop translates the conditions into actual statements that can be 
 #evaluated later
-foreach my $statement (@conditions) {
+for(my $index = 0;$index < scalar(@conditions); $index++){
+	my $statement = $conditions[$index];
 	chomp $statement;
 	#replaces something like $3 in the condition with $table{$key}[3]
-	$statement =~ s:\$([\d]+):\$table{\$key}\[\1\]:g
+	$statement =~ s:\$([\d]+):\$table{\$key}\[\1\]:g;
+	$conditions[$index] = $statement;
 }
-
-
 
 #
 #preparing table file hash
@@ -91,7 +99,7 @@ close($fh_table);
 #
 #filter table hash with @conditions array, print entries that pass all conditions
 #
-foreach my $key (%table) {
+foreach my $key (keys(%table)) {
 	my $printable = 1;
 	foreach my $statement (@conditions) {
 		if(!eval $statement) {
@@ -99,6 +107,7 @@ foreach my $key (%table) {
 			last;
 		}
 	}
+
 	if($printable) {
 		print join("\t", @{$table{$key}}) . "\n";
 	}
