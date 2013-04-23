@@ -1,3 +1,6 @@
+Summaries for scripts in this repository.
+	Check the comments at the top of a script for more detail.
+
 General notes for all scripts: 
 
 	Files from different operating systems sometimes use different newline
@@ -18,6 +21,16 @@ General notes for all scripts:
 		example: perl countconsec.pl filename.fasta > otherfile.txt 
 
 
+slidingMatch.pl: 2013-4-22, auth: MC, request: DH
+		usage: perl slidingMatch.pl template.txt target.txt
+
+		The template and target files should contain a single line each, 
+		where that line is a string of characters. The template string should
+		be a potential substring of the target. This script will check each 
+		possible alignment of one against the other, and count the number
+		of matching characters for each alignment. The output is a string of 
+		integers representing the number of character matches for each alignement
+		check.
 
 
 comparetables.pl: 2013-3-13, auth: MC, request: DH 
