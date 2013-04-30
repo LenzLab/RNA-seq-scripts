@@ -21,6 +21,21 @@ General notes for all scripts:
 		example: perl countconsec.pl filename.fasta > otherfile.txt 
 
 
+fastqDivide.pl: 2013-4-17, auth: MC, request: DH
+		usage: Edit these three variables within the script: 
+		         $input_fname
+		         $output1_fname
+		         $output2_fname
+		       to reference the original fastq and the names
+		       of the 2 resulting files. Run with:
+		         perl fastqDivide.pl
+
+		This script reads a fastq file and produces two new fastq files
+		which each contain half of the entries from the input file. 
+		The first output file produced contains the first, third, fifth,
+		etc. entries. The second output file contains entries two, four, 
+		six, etc. 
+
 slidingMatch.pl: 2013-4-22, auth: MC, request: DH
 		usage: perl slidingMatch.pl template.txt target.txt
 
