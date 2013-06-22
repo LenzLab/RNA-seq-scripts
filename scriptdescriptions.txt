@@ -21,6 +21,37 @@ General notes for all scripts:
 		example: perl countconsec.pl filename.fasta > otherfile.txt 
 
 
+segmentFinder.pl: 2013-6-21, auth: MC, request: DH
+		usage: Edit $MIN_SEGMENT_LENGTH	to the length a segment must surpass
+		       to guarantee that it is not absorbed into a composite segment.
+		       Run with:
+		         perl segmentFinder.pl MAFFTfile.txt
+
+		This script takes a MAFFT alignment of a compound as input. It finds 
+		segments in the sequence where any strand changes from '-' to a base
+		or vice versa, as well as where the relative differences between the 
+		strands changes. For example:
+			ACGTGC
+			ACGTGC
+			TGATGC
+		Two segments would be detected; the first three and the last three 
+		characters, since the third strand changes from being different from 
+		the other strands to matching them.
+
+		Since non-matching strands may randomly align with each other for a
+		few bases at a time, consecutive short segments are combined into a 
+		single composite segment. A segment is short enough to be considered 
+		for combining if its length is less than $MIN_SEGMENT_LENGTH.
+
+		Output of this script is the value of $MIN_SEGMENT_LENGTH, then a table
+		of segments giving the segment number, length, and multiplicity (how many
+		unique strands are in this segment - blank if it is a composite segment),
+		then a copy of the original MAFFT file with the beginning of each segment 
+		marked with its length. Note that a segment of length 1 may be misleading.
+		I.e. if there is a 1-segment followed by a 20-segment, the mark will 
+		appear as '120'.
+
+
 fastqDivide.pl: 2013-4-17, auth: MC, request: DH
 		usage: Edit these three variables within the script: 
 		         $input_fname
