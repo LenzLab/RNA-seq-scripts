@@ -57,7 +57,6 @@ sub findSegments{
 	
 	open(my $fh, $MAFFTfile) or die $!;
 	
-	#main loop for segment detecting
 	SECTION: while(1){
 	
 		#if between sections, load the next section as lines into an array
@@ -164,7 +163,6 @@ sub combineSmallSegments{
 	my @segments = @{shift(@_)};
 	my $MIN_SEGMENT_LENGTH = shift(@_);
 
-	#find consecutive short segments and combine them into composite segments
 	for(my $i = 1; $i < @segments; $i++){
 		my %thisSegment = %{$segments[$i]};
 		if($thisSegment{"length"} < $MIN_SEGMENT_LENGTH){
@@ -192,7 +190,6 @@ sub printSegmentInfo{
 ########################################
 	my @segments = @{shift(@_)};
 
-	#segment info output by columns
 	print("Seg #\tLength\tMultiplicity\n");
 	for(my $i = 1; $i <= @segments; $i++){
 		my %segment = %{$segments[$i-1]};
@@ -216,7 +213,6 @@ sub printMarkedMAFFT{
 	my @segments = @{shift(@_)};
 	my $MAFFTfile = shift(@_);
 
-	#output MAFFT file with segments marked
 	my $indentLength;
 	my $sectionLength;
 	my $lineLength;
