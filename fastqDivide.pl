@@ -1,4 +1,4 @@
-#fastqDivide.pl  4-17-2013, MC
+#fastqDivide.pl  23-7-2013, MC
 
 #This script reads a fastq file and writes two new fastq
 #files, each containing half of the entries in the original.
@@ -15,11 +15,11 @@
 use strict;
 
 #Path to and name of original fastq file
-my $input_fname = 'small.fastq';
+my $input_fname = 'input.fastq';
 
 #Paths and names of output files
-my $output1_fname = 'small_odd.fastq';
-my $output2_fname = 'small_even.fastq';
+my $output1_fname = 'output1.fastq';
+my $output2_fname = 'output2.fastq';
 
 
 open(my $input_fh, $input_fname) or die $!;
