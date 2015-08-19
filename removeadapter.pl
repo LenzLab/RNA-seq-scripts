@@ -2,8 +2,8 @@
 
 
 #Usage: perl countconsec.pl filename.fasta adapters.txt
-#       i.e.:  perl countconsec.pl small.fasta
-#              perl countconsec.pl small.fasta 7
+#       i.e.:  perl countconsec.pl small.fasta adapters.txt
+#              perl countconsec.pl small.fasta adapters.txt > output.fasta
 # This script takes a fasta file and an adapter file and removes
 # the adapter sequences from each fasta sequence
 # it outputs a new fasta file with the adapter sequences removed
